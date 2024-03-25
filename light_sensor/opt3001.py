@@ -5,6 +5,7 @@ from time import sleep
 from typing import List, Literal, Tuple
 
 import libusb_package
+from tqdm import tqdm
 import usb.core
 from usb.backend import libusb1
 
@@ -110,7 +111,15 @@ class OPT3001:
 
 # %%
 if __name__ == "__main__":
+    from pathlib import Path
+
+    MAX_LINES = 10
     opt = OPT3001()
-    for k in range(10):
-        print(f"{opt.get_timestamp()} : {opt.read_lux()}")
-        sleep(1)
+    output_file = Path("data.csv").absolute()
+    with output_file.open(mode="w+", newline="\n") as fid:
+        for num_lines in tqdm(range(MAX_LINES)):
+            lux = opt.read_lux()
+            t = opt.get_timestamp()
+            fid.write(f"{t}, {lux}\n")
+            sleep(1)
+    print(f"wrote {num_lines} lines to {output_file}")
