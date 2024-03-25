@@ -6,7 +6,7 @@ authors = ["YitzhakPeleg <yitzhak.peleg@gmail.com>"]
 # readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 pyusb = "^1.2.1"
 libusb-package = "^1.0.26.2"
 
@@ -14,6 +14,9 @@ libusb-package = "^1.0.26.2"
 [tool.poetry.group.dev.dependencies]
 tqdm = "^4.66.2"
 ruff = "^0.3.4"
+jupyterlab = "^4.1.5"
+plotly = "^5.20.0"
+pandas = "^2.2.1"
 
 [build-system]
 requires = ["poetry-core"]
