@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "OPT3001"
+version = "0.1.0"
+description = "Python class for interfacing the OPT3001 using SM-USB-DIG board"
+authors = ["YitzhakPeleg <yitzhak.peleg@gmail.com>"]
+# readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pyusb = "^1.2.1"
+libusb-package = "^1.0.26.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
