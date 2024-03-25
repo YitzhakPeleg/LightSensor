@@ -5,7 +5,6 @@ from time import sleep
 from typing import List, Literal, Tuple
 
 import libusb_package
-from tqdm import tqdm
 import usb.core
 from usb.backend import libusb1
 
@@ -77,8 +76,14 @@ class OPT3001:
         mantisa = ((a & 0x0F) << 8) + b
         return (1 << exponent) * mantisa * self.LUX_FACTOR
 
-    def get_timestamp(self) -> int:
-        return int(datetime.now().timestamp())
+    @staticmethod
+    def get_timestamp(unit: Literal["s", "ms", "us"] = "s") -> int:
+        t = datetime.now().timestamp()
+        if unit == "ms":
+            t *= 1e3
+        elif unit == "us":
+            t *= 1e6
+        return int(t)
 
     # write opt3001 configuration register:
     def set_configuration(
@@ -112,14 +117,15 @@ class OPT3001:
 # %%
 if __name__ == "__main__":
     from pathlib import Path
+    from tqdm import tqdm
 
-    MAX_LINES = 10
+    MAX_LINES = int(1e3)
     opt = OPT3001()
     output_file = Path("data.csv").absolute()
     with output_file.open(mode="w+", newline="\n") as fid:
         for num_lines in tqdm(range(MAX_LINES)):
             lux = opt.read_lux()
-            t = opt.get_timestamp()
+            t = opt.get_timestamp(unit="ms")
             fid.write(f"{t}, {lux}\n")
-            sleep(1)
+            sleep(0.25)
     print(f"wrote {num_lines} lines to {output_file}")
