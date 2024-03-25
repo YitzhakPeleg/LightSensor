@@ -76,15 +76,6 @@ class OPT3001:
         mantisa = ((a & 0x0F) << 8) + b
         return (1 << exponent) * mantisa * self.LUX_FACTOR
 
-    @staticmethod
-    def get_timestamp(unit: Literal["s", "ms", "us"] = "s") -> int:
-        t = datetime.now().timestamp()
-        if unit == "ms":
-            t *= 1e3
-        elif unit == "us":
-            t *= 1e6
-        return int(t)
-
     # write opt3001 configuration register:
     def set_configuration(
         self,
