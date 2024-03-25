@@ -112,20 +112,3 @@ class OPT3001:
             "00 00 00 00 00 00 00 00 "
         )
         self.in_endpoint.read(32)
-
-
-# %%
-if __name__ == "__main__":
-    from pathlib import Path
-    from tqdm import tqdm
-
-    MAX_LINES = int(1e3)
-    opt = OPT3001()
-    output_file = Path("data.csv").absolute()
-    with output_file.open(mode="w+", newline="\n") as fid:
-        for num_lines in tqdm(range(MAX_LINES)):
-            lux = opt.read_lux()
-            t = opt.get_timestamp(unit="ms")
-            fid.write(f"{t}, {lux}\n")
-            sleep(0.25)
-    print(f"wrote {num_lines} lines to {output_file}")
